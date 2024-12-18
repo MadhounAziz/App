@@ -24,7 +24,11 @@ export function Calendar({ props, apiKey }) {
 
     const fetchWeatherData = async () => {
       const startDate = new Date();
-      const endDate = new Date(startDate.getFullYear(), startDate.getMonth() + 12, 0);
+      const endDate = new Date(
+        startDate.getFullYear(),
+        startDate.getMonth() + 12,
+        0
+      );
 
       try {
         const url = `https://api.openweathermap.org/data/2.5/forecast?lat=${coordinates.lat}&lon=${coordinates.lon}&appid=${apiKey}&units=metric`;
@@ -35,7 +39,9 @@ export function Calendar({ props, apiKey }) {
 
           if (forecastDate < startDate || forecastDate > endDate) return acc;
 
-          const dateKey = `${forecastDate.getFullYear()}-${forecastDate.getMonth() + 1}-${forecastDate.getDate()}`;
+          const dateKey = `${forecastDate.getFullYear()}-${
+            forecastDate.getMonth() + 1
+          }-${forecastDate.getDate()}`;
 
           if (!acc[dateKey]) {
             acc[dateKey] = {
@@ -44,8 +50,14 @@ export function Calendar({ props, apiKey }) {
             };
           }
 
-          acc[dateKey].temp.max = Math.max(acc[dateKey].temp.max, forecast.main.temp_max);
-          acc[dateKey].temp.min = Math.min(acc[dateKey].temp.min, forecast.main.temp_min);
+          acc[dateKey].temp.max = Math.max(
+            acc[dateKey].temp.max,
+            forecast.main.temp_max
+          );
+          acc[dateKey].temp.min = Math.min(
+            acc[dateKey].temp.min,
+            forecast.main.temp_min
+          );
 
           if (!acc[dateKey].weather || forecast.weather[0].main !== "Clear") {
             acc[dateKey].weather = forecast.weather[0];
@@ -67,7 +79,10 @@ export function Calendar({ props, apiKey }) {
     const currentDate = new Date();
 
     return Array.from({ length: 12 }, (_, i) => {
-      const forecastDate = new Date(currentDate.getFullYear(), currentDate.getMonth() + i);
+      const forecastDate = new Date(
+        currentDate.getFullYear(),
+        currentDate.getMonth() + i
+      );
       const year = forecastDate.getFullYear();
       const month = forecastDate.getMonth();
 
@@ -99,8 +114,12 @@ export function Calendar({ props, apiKey }) {
             : null,
           weatherDesc: dayForecast?.weather?.description || "No forecast",
           temp: {
-            max: dayForecast?.temp?.max ? Math.round(dayForecast.temp.max) : null,
-            min: dayForecast?.temp?.min ? Math.round(dayForecast.temp.min) : null,
+            max: dayForecast?.temp?.max
+              ? Math.round(dayForecast.temp.max)
+              : null,
+            min: dayForecast?.temp?.min
+              ? Math.round(dayForecast.temp.min)
+              : null,
           },
         });
       }
@@ -116,15 +135,21 @@ export function Calendar({ props, apiKey }) {
       }
 
       return (
-        <div key={`${year}-${month}`} className={activeTab === i ? "block" : "hidden"}>
+        <div
+          key={`${year}-${month}`}
+          className={activeTab === i ? "block" : "hidden"}>
           <div className="rounded-xl bg-gray-900/5 my-5 p-2 ring-1 ring-inset ring-gray-900/10 lg:rounded-2xl lg:p-4">
             <div className="rounded-md shadow-lg ring-1 ring-gray-900/10 bg-white/5 px-3.5 overflow-hidden">
               <div className="grid grid-cols-7 gap-1.5 py-1.5">
-                {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((day) => (
-                  <div key={day} className="text-center font-semibold text-sm py-2.5">
-                    <h4>{day}</h4>
-                  </div>
-                ))}
+                {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map(
+                  (day) => (
+                    <div
+                      key={day}
+                      className="text-center font-semibold text-sm py-2.5">
+                      <h4>{day}</h4>
+                    </div>
+                  )
+                )}
               </div>
 
               <div className="grid grid-cols-7 gap-1.5 pb-3.5">
@@ -134,12 +159,11 @@ export function Calendar({ props, apiKey }) {
                     className={clss(
                       dateObj.isPrevMonth ? "text-white/50" : "text-white",
                       "relative rounded-lg p-2"
-                    )}
-                  >
+                    )}>
                     <span className="text-sm font-medium">{dateObj.day}</span>
                     <div className="flex text-sm">
                       {dateObj.weatherIcon ? (
-                        <Image
+                        <img
                           src={dateObj.weatherIcon}
                           alt={dateObj.weatherDesc}
                           width={80}
@@ -151,13 +175,16 @@ export function Calendar({ props, apiKey }) {
                           Unknown
                         </div>
                       )}
-                      {dateObj.temp?.max !== null && dateObj.temp?.min !== null ? (
+                      {dateObj.temp?.max !== null &&
+                      dateObj.temp?.min !== null ? (
                         <div className="flex flex-col justify-center items-center space-y-2 text-lg text-white font-medium">
                           <span>{dateObj.temp.max}°</span>
                           <span>{dateObj.temp.min}°</span>
                         </div>
                       ) : (
-                        <div className="text-xs text-white/50 mt-1">Unknown</div>
+                        <div className="text-xs text-white/50 mt-1">
+                          Unknown
+                        </div>
                       )}
                     </div>
                   </div>
@@ -176,18 +203,18 @@ export function Calendar({ props, apiKey }) {
         new Date().getFullYear(),
         new Date().getMonth() + index
       );
-      
+
       const monthName = forecastDate.toLocaleString("en-US", { month: "long" });
       return (
         <button
           key={index}
           onClick={() => setActiveTab(index)}
           className={clss(
-              "px-3 py-2 text-white",
-              activeTab === index ? "bg-white/10 ring-1 ring-white/15 rounded" : ""
-            )
-          }
-        >
+            "px-3 py-2 text-white",
+            activeTab === index
+              ? "bg-white/10 ring-1 ring-white/15 rounded"
+              : ""
+          )}>
           {monthName.slice(0, 3)}
         </button>
       );

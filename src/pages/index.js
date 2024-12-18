@@ -242,7 +242,7 @@ export default function Home() {
                     </div>
                   </div>
                   <div className="flex items-center space-x-6 mt-4">
-                    <Image
+                    <img
                       src={currentWeatherIcon}
                       alt="Weather icon"
                       width={112}
@@ -298,7 +298,7 @@ export default function Home() {
                   key={index}
                   className="flex-shrink-0 text-center p-3.5 bg-white/5 ring-1 ring-white/10 shadow-sm backdrop-blur-sm rounded-lg">
                   <p>{hour.time}</p>
-                  <Image
+                  <img
                     src={hour.icon}
                     alt="Hourly forecast icon"
                     className="mx-auto my-3"
@@ -322,7 +322,7 @@ export default function Home() {
                   className="flex flex-1 gap-x-6 items-end text-center py-3.5 bg-white/5 ring-1 ring-white/10 shadow-sm backdrop-blur-sm rounded-lg">
                   <div className="text-start shrink-0">
                     <h5 className="text-gray-200 px-7">{day.date}</h5>
-                    <Image
+                    <img
                       src={day.icon}
                       alt="Daily weather icon"
                       className="mx-auto my-2"
